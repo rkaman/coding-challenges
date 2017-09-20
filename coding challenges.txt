@@ -1,3 +1,77 @@
+//Magnet particles in boxes
+double doubles(int maxk, int maxn) {
+    // your code
+    double sum = 0;
+    for(int k = 1; k <= maxk; k++)
+    {
+      double pow = 2*k;
+      for( int n = 1; n <= maxn; n++)
+      {
+        double denom = n+1;
+        for(int i = 2; i <= pow; i++)
+          denom *= n+1;
+        denom *= k;
+        sum += 1/denom;
+      }
+    }
+    return sum;
+}
+
+//IP Validation
+/* Return 1 is addr is a valid IP address, return 0 otherwise */
+int is_valid_ip(const char * addr) {
+    int num = 0;
+    int oct = 0;
+    if(*addr > 0x3a || *addr < 0x30)
+      return 0;  //first character isnt a number
+    while(*addr != 0)
+    {
+      char cur = *addr;
+      if(cur == '.')
+      {
+        num = 0;
+        oct++;
+        addr++;
+      }
+      else
+      {
+        if(*addr > 0x3a || *addr < 0x30)
+          return 0;//not a number, we know its not a dot
+        if(num == 0 && cur == '0' && *addr != '.')
+        {
+          return 0; //leading 0
+        }
+        num *= 10;
+        num += cur-0x30;
+        addr++;
+        printf("%d\n",num);
+        if(num > 255)
+          return 0;
+      }
+    }
+    if(oct != 3)
+     return 0;
+    return 1;
+};
+
+//Mutual Recursion
+int F(int n);
+int M(int n);
+
+int F(int n) {
+  //...
+  if( n == 0)
+    return 1;
+  return n - M(F(n-1));
+}
+
+int M(int n) {
+  //...
+  if(n == 0)
+    return 0;
+  return n - F(M(n-1));
+}
+
 //Base Conversion
 #import <stdlib.h>
 char * convert(const char * input, const char * source, const char * target) {
@@ -219,4 +293,29 @@ int* nbMonths(int startPriceOld, int startPriceNew, int savingperMonth, double p
   ret[0] = months;
   ret[1] = (currMoney-priceNew+500)/1000;
   return ret;
+}
+
+//Get the middle character - C++
+std::string get_middle(std::string input) 
+{
+  std::string retString;
+  if(input.length() % 2 == 0)
+  {
+    retString += input[input.length()/2-1];
+  }
+  retString += input[input.length()/2];
+  return retString;
+  
+}
+
+//Sum of a sequence - C++
+int sequenceSum(int start, int end, int step)
+{
+  int ans = 0;
+  while(start <= end)
+  {
+    ans += start;
+    start += step;
+  }
+  return ans;
 }
